@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BlackjackCS
 {
@@ -31,34 +32,46 @@ namespace BlackjackCS
             }
 
 
-        }
+        } */
 
-        class Deck
+    class Deck
+    {
+        public List<string> DeckOfCards { get; set; }
+
+        public void GenerateNewDeck()
         {
-            public string ListOfAllFaces { get; set; }
+            DeckOfCards = new List<string>();
 
-            public string listOfAllSuits { get; set; }
+            var ranks = new List<string>() { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
+            var suits = new List<string>() { "Clubs", "Diamonds", "Hearts", "Spades" };
 
-            public string cards { get; set; }
-
-            GenerateNewDeck()
+            for (var i = 0; i < ranks.Count; i++)
             {
-
+                for (var j = 0; j < suits.Count; j++)
+                {
+                    DeckOfCards.Add($"{ranks[i]} of {suits[j]}");
+                }
             }
-
-            ShuffleDeck()
-            {
-
-            }
-
-            DealCards()
-            {
-
-            }
-
-
         }
-        */
+
+        public void ShuffleDeck()
+        {
+            for (var i = DeckOfCards.Count - 1; i > 0; i--)
+            {
+                var randomNumber = new Random().Next(i - 1);
+                var leftCard = DeckOfCards[randomNumber];
+                var rightCard = DeckOfCards[i];
+
+                DeckOfCards[randomNumber] = rightCard;
+                DeckOfCards[i] = leftCard;
+            }
+        }
+
+        // DealCards()
+        // {
+
+        // }
+    }
 
     class Program
 
@@ -79,7 +92,21 @@ namespace BlackjackCS
             DisplayGreeting();
 
             var name = PromptForString("What is your name? ");
-            Console.WriteLine(name);
+
+            var newDeckOfCards = new Deck();
+            newDeckOfCards.GenerateNewDeck();
+
+            foreach (string element in newDeckOfCards.DeckOfCards)
+            {
+                Console.WriteLine(element);
+            }
+
+            newDeckOfCards.ShuffleDeck();
+
+            foreach (string element in newDeckOfCards.DeckOfCards)
+            {
+                Console.WriteLine(element);
+            }
 
         }
     }
