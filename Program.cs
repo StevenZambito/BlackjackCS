@@ -7,62 +7,79 @@ namespace BlackjackCS
         public string Name { get; set; }
         public int HandTotal { get; set; }
 
-        public int Hit()
+        public void Hit()
         {
-
+            Console.WriteLine("Hittting");
         }
 
-        public int Stand()
+        public void Stand()
         {
-
-        }
-
-
-    }
-
-    class Card
-    {
-        public string Faces { get; set; }
-        public string Suits { get; set; }
-
-        public int Value()
-        {
-
+            Console.WriteLine("Standinggg");
         }
 
 
     }
-
-    class Deck
-    {
-        public string ListOfAllFaces { get; set; }
-
-        public string listOfAllSuits { get; set; }
-
-        public string cards { get; set; }
-
-        GenerateNewDeck()
+    /*
+        class Card
         {
+            public string Faces { get; set; }
+            public string Suits { get; set; }
+
+            public int Value()
+            {
+
+            }
+
 
         }
 
-        ShuffleDeck()
+        class Deck
         {
+            public string ListOfAllFaces { get; set; }
+
+            public string listOfAllSuits { get; set; }
+
+            public string cards { get; set; }
+
+            GenerateNewDeck()
+            {
+
+            }
+
+            ShuffleDeck()
+            {
+
+            }
+
+            DealCards()
+            {
+
+            }
+
 
         }
-
-        DealCards()
-        {
-
-        }
-
-
-    }
+        */
 
     class Program
+
     {
+        static void DisplayGreeting()
+        {
+            Console.WriteLine("Welcome to BlackJack!");
+        }
+
+        static string PromptForString(string prompt)
+        {
+            Console.Write(prompt);
+            var userInput = Console.ReadLine();
+            return userInput;
+        }
         static void Main(string[] args)
         {
+            DisplayGreeting();
+
+            var name = PromptForString("What is your name? ");
+            Console.WriteLine(name);
 
         }
     }

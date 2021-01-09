@@ -78,7 +78,8 @@
 - If the dealers total goes over 21, the dealer automatically loses
 
 - Once the player and the dealer have both stood, the hand closer to 21 wins
-- Ties go to the dealer
+
+- Ties go to the dealer. If the value of a player's hand equals the value of the dealer's hand, display "The Dealer Wins"
 
 - The user can start a new game or exit the program
 
