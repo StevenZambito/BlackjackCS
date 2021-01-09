@@ -6,18 +6,24 @@ namespace BlackjackCS
     class Player
     {
         public string Name { get; set; }
+        public List<string> Hand { get; set; }
         public int HandTotal { get; set; }
-
-        public void Hit()
+        public void Hit(Deck deck)
         {
-            Console.WriteLine("Hittting");
-        }
+            var newCard = deck.DeckOfCards[0];
+            deck.DeckOfCards.RemoveAt(0);
 
+            Hand.Add(newCard);
+        }
         public void Stand()
         {
             Console.WriteLine("Standinggg");
         }
 
+        public void CalculateHandTotal()
+        {
+            Console.WriteLine("calculating hand total");
+        }
 
     }
     /*
@@ -67,10 +73,16 @@ namespace BlackjackCS
             }
         }
 
-        // DealCards()
-        // {
+        public void DealCards(Player player)
+        {
+            var firstCard = DeckOfCards[0];
+            DeckOfCards.RemoveAt(0);
+            var secondCard = DeckOfCards[0];
+            DeckOfCards.RemoveAt(0);
 
-        // }
+            player.Hand.Add(firstCard);
+            player.Hand.Add(secondCard);
+        }
     }
 
     class Program
@@ -87,11 +99,33 @@ namespace BlackjackCS
             var userInput = Console.ReadLine();
             return userInput;
         }
+
+        static string PromptForHitOrStandString(string prompt)
+        {
+            Console.Write(prompt);
+            var userInput = Console.ReadLine();
+
+            return userInput;
+        }
         static void Main(string[] args)
         {
             DisplayGreeting();
 
             var name = PromptForString("What is your name? ");
+
+            var userPlayer = new Player()
+            {
+                Name = name,
+                Hand = new List<string>(),
+                HandTotal = 0
+            };
+
+            var dealerPlayer = new Player()
+            {
+                Name = "Dealer",
+                Hand = new List<string>(),
+                HandTotal = 0
+            };
 
             var newDeckOfCards = new Deck();
             newDeckOfCards.GenerateNewDeck();
@@ -107,6 +141,30 @@ namespace BlackjackCS
             {
                 Console.WriteLine(element);
             }
+
+            newDeckOfCards.DealCards(userPlayer);
+            newDeckOfCards.DealCards(dealerPlayer);
+            Console.WriteLine("Here is your hand:");
+
+            foreach (string element in userPlayer.Hand)
+            {
+                Console.WriteLine(element);
+            }
+            Console.WriteLine("");
+
+            // foreach (string element in dealerPlayer.Hand)
+            // {
+            //     Console.WriteLine(element);
+            // }
+            var hitOrStand = PromptForHitOrStandString("Hit or stand?");
+
+            if (hitOrStand == "Hit")
+            {
+                userPlayer.Hit(newDeckOfCards);
+            }
+
+
+
 
         }
     }
