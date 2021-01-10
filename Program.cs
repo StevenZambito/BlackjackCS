@@ -8,7 +8,6 @@ namespace BlackjackCS
         public string Name { get; set; }
         public List<Card> Hand { get; set; }
         public int HandTotal { get; set; }
-
         public bool HasStood { get; set; }
         public void Hit(Deck deck)
         {
@@ -18,7 +17,6 @@ namespace BlackjackCS
             Hand.Add(newCard);
 
             CalculateHandTotal();
-
         }
         public void Stand()
         {
@@ -26,7 +24,6 @@ namespace BlackjackCS
 
             HasStood = true;
         }
-
         public int CalculateHandTotal()
         {
             var total = 0;
@@ -37,14 +34,12 @@ namespace BlackjackCS
             HandTotal = total;
             return HandTotal;
         }
-
     }
 
     class Card
     {
         public string Rank { get; set; }
         public string Suit { get; set; }
-
         public int Value()
         {
             switch (Rank)
@@ -79,14 +74,11 @@ namespace BlackjackCS
                     return 0;
             }
         }
-
-
     }
 
     class Deck
     {
         public List<Card> DeckOfCards { get; set; }
-
         public void GenerateNewDeck()
         {
             DeckOfCards = new List<Card>();
@@ -106,7 +98,6 @@ namespace BlackjackCS
                 }
             }
         }
-
         public void ShuffleDeck()
         {
             for (var i = DeckOfCards.Count - 1; i > 0; i--)
@@ -119,7 +110,6 @@ namespace BlackjackCS
                 DeckOfCards[i] = leftCard;
             }
         }
-
         public void DealCards(Player player)
         {
             var firstCard = DeckOfCards[0];
@@ -133,20 +123,17 @@ namespace BlackjackCS
     }
 
     class Program
-
     {
         static void DisplayGreeting()
         {
             Console.WriteLine("Welcome to BlackJack!");
         }
-
         static string PromptForString(string prompt)
         {
             Console.Write(prompt);
             var userInput = Console.ReadLine();
             return userInput;
         }
-
         static string PromptForHitOrStandString(string prompt)
         {
             Console.Write(prompt);
@@ -154,7 +141,6 @@ namespace BlackjackCS
 
             return userInput;
         }
-
         static void ResetGame()
         {
             Console.WriteLine("Would you like to play again? Yes or No?");
@@ -169,7 +155,6 @@ namespace BlackjackCS
             {
                 Environment.Exit(0);
             }
-
         }
         static void Main(string[] args)
         {
@@ -208,22 +193,21 @@ namespace BlackjackCS
                 userPlayer.Stand();
             }
             dealerPlayer.CalculateHandTotal();
-            Console.WriteLine("Here is your hand:");
 
+            Console.WriteLine("Here is your hand:");
             foreach (var element in userPlayer.Hand)
             {
                 Console.WriteLine(element.Rank + " of " + element.Suit);
             }
-            Console.WriteLine("");
 
             while (userPlayer.HandTotal < 21 && userPlayer.HasStood != true)
             {
                 var hitOrStand = PromptForHitOrStandString("Hit or stand? ");
 
-
                 if (hitOrStand == "Hit")
                 {
                     userPlayer.Hit(newDeckOfCards);
+
                     if (userPlayer.HandTotal > 21)
                     {
                         foreach (var element in userPlayer.Hand)
@@ -232,16 +216,13 @@ namespace BlackjackCS
                         }
                         Console.WriteLine("You bust, Game Over!");
 
-
                         ResetGame();
-
                     }
                     else if (userPlayer.HandTotal == 21)
                     {
                         userPlayer.Stand();
                         Console.WriteLine("You have 21! You have stood.");
                     }
-
                 }
                 else if (hitOrStand == "Stand")
                 {
@@ -260,10 +241,12 @@ namespace BlackjackCS
                 {
                     Console.WriteLine(element.Rank + " of " + element.Suit);
                 }
+
                 if (dealerPlayer.HandTotal < 17)
                 {
-                    dealerPlayer.Hit(newDeckOfCards);
                     Console.WriteLine("The dealer hits");
+                    dealerPlayer.Hit(newDeckOfCards);
+
                     if (dealerPlayer.HandTotal > 21)
                     {
                         Console.WriteLine("This is the dealers hand:");
@@ -274,37 +257,29 @@ namespace BlackjackCS
 
                         Console.WriteLine("Dealer busts, User Wins!");
                         ResetGame();
-
-
                     }
-
                 }
                 else if (dealerPlayer.HandTotal >= 17)
                 {
                     Console.WriteLine("The Dealer Stands");
                     dealerPlayer.Stand();
                 }
-
             }
 
             if (dealerPlayer.HandTotal < userPlayer.HandTotal && userPlayer.HandTotal <= 21)
             {
-                Console.WriteLine("user wins!");
+                Console.WriteLine("You win!");
             }
             else if (userPlayer.HandTotal < dealerPlayer.HandTotal && dealerPlayer.HandTotal <= 21)
             {
-                Console.WriteLine("dealer wins!");
+                Console.WriteLine("Dealer wins!");
             }
             else if (userPlayer.HandTotal == dealerPlayer.HandTotal)
             {
-                Console.WriteLine("dealer wins!");
+                Console.WriteLine("Dealer wins!");
             }
+
             ResetGame();
-
-
-
-
-
         }
     }
 }
