@@ -6,7 +6,7 @@ namespace BlackjackCS
     class Player
     {
         public string Name { get; set; }
-        public List<string> Hand { get; set; }
+        public List<Card> Hand { get; set; }
         public int HandTotal { get; set; }
         public void Hit(Deck deck)
         {
@@ -26,27 +26,57 @@ namespace BlackjackCS
         }
 
     }
-    /*
-        class Card
+
+    class Card
+    {
+        public string Rank { get; set; }
+        public string Suit { get; set; }
+
+        public int Value()
         {
-            public string Faces { get; set; }
-            public string Suits { get; set; }
-
-            public int Value()
+            switch (Rank)
             {
-
+                case "Ace":
+                    return 11;
+                case "2":
+                    return 2;
+                case "3":
+                    return 3;
+                case "4":
+                    return 4;
+                case "5":
+                    return 5;
+                case "6":
+                    return 6;
+                case "7":
+                    return 7;
+                case "8":
+                    return 8;
+                case "9":
+                    return 9;
+                case "10":
+                    return 10;
+                case "Jack":
+                    return 10;
+                case "Queen":
+                    return 10;
+                case "King":
+                    return 10;
+                default:
+                    return 0;
             }
+        }
 
 
-        } */
+    }
 
     class Deck
     {
-        public List<string> DeckOfCards { get; set; }
+        public List<Card> DeckOfCards { get; set; }
 
         public void GenerateNewDeck()
         {
-            DeckOfCards = new List<string>();
+            DeckOfCards = new List<Card>();
 
             var ranks = new List<string>() { "Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King" };
             var suits = new List<string>() { "Clubs", "Diamonds", "Hearts", "Spades" };
@@ -55,7 +85,11 @@ namespace BlackjackCS
             {
                 for (var j = 0; j < suits.Count; j++)
                 {
-                    DeckOfCards.Add($"{ranks[i]} of {suits[j]}");
+                    DeckOfCards.Add(new Card()
+                    {
+                        Rank = ranks[i],
+                        Suit = suits[j]
+                    });
                 }
             }
         }
@@ -116,28 +150,28 @@ namespace BlackjackCS
             var userPlayer = new Player()
             {
                 Name = name,
-                Hand = new List<string>(),
+                Hand = new List<Card>(),
                 HandTotal = 0
             };
 
             var dealerPlayer = new Player()
             {
                 Name = "Dealer",
-                Hand = new List<string>(),
+                Hand = new List<Card>(),
                 HandTotal = 0
             };
 
             var newDeckOfCards = new Deck();
             newDeckOfCards.GenerateNewDeck();
 
-            foreach (string element in newDeckOfCards.DeckOfCards)
+            foreach (var element in newDeckOfCards.DeckOfCards)
             {
                 Console.WriteLine(element);
             }
 
             newDeckOfCards.ShuffleDeck();
 
-            foreach (string element in newDeckOfCards.DeckOfCards)
+            foreach (var element in newDeckOfCards.DeckOfCards)
             {
                 Console.WriteLine(element);
             }
@@ -146,9 +180,9 @@ namespace BlackjackCS
             newDeckOfCards.DealCards(dealerPlayer);
             Console.WriteLine("Here is your hand:");
 
-            foreach (string element in userPlayer.Hand)
+            foreach (var element in userPlayer.Hand)
             {
-                Console.WriteLine(element);
+                Console.WriteLine(element.Rank + " of " + element.Suit);
             }
             Console.WriteLine("");
 
@@ -156,13 +190,17 @@ namespace BlackjackCS
             // {
             //     Console.WriteLine(element);
             // }
-            var hitOrStand = PromptForHitOrStandString("Hit or stand?");
+            var hitOrStand = PromptForHitOrStandString("Hit or stand? ");
 
             if (hitOrStand == "Hit")
             {
                 userPlayer.Hit(newDeckOfCards);
             }
 
+            foreach (var element in userPlayer.Hand)
+            {
+                Console.WriteLine(element.Rank + " of " + element.Suit);
+            }
 
 
 
