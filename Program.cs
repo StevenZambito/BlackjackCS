@@ -154,6 +154,23 @@ namespace BlackjackCS
 
             return userInput;
         }
+
+        static void ResetGame()
+        {
+            Console.WriteLine("Would you like to play again? Yes or No?");
+            var userInput = Console.ReadLine();
+            if (userInput == "Yes")
+            {
+                Main(new string[] {
+                    ""
+                });
+            }
+            else if (userInput == "No")
+            {
+                Environment.Exit(0);
+            }
+
+        }
         static void Main(string[] args)
         {
             DisplayGreeting();
@@ -215,6 +232,7 @@ namespace BlackjackCS
                     if (userPlayer.HandTotal > 21)
                     {
                         Console.WriteLine("You bust, Game Over!");
+                        ResetGame();
 
                     }
 
@@ -224,6 +242,30 @@ namespace BlackjackCS
                     userPlayer.Stand();
                 }
                 foreach (var element in userPlayer.Hand)
+                {
+                    Console.WriteLine(element.Rank + " of " + element.Suit);
+                }
+            }
+
+            while (dealerPlayer.HandTotal < 17 && dealerPlayer.HasStood != true)
+            {
+                if (dealerPlayer.HandTotal < 17)
+                {
+                    dealerPlayer.Hit(newDeckOfCards);
+                    if (dealerPlayer.HandTotal > 21)
+                    {
+                        Console.WriteLine("Dealer busts, User Wins!");
+                        ResetGame();
+
+
+                    }
+
+                }
+                else if (dealerPlayer.HandTotal >= 17)
+                {
+                    dealerPlayer.Stand();
+                }
+                foreach (var element in dealerPlayer.Hand)
                 {
                     Console.WriteLine(element.Rank + " of " + element.Suit);
                 }
