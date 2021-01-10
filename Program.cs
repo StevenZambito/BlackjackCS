@@ -14,6 +14,9 @@ namespace BlackjackCS
             deck.DeckOfCards.RemoveAt(0);
 
             Hand.Add(newCard);
+
+            CalculateHandTotal();
+
         }
         public void Stand()
         {
@@ -196,21 +199,34 @@ namespace BlackjackCS
             // {
             //     Console.WriteLine(element);
             // }
-            var hitOrStand = PromptForHitOrStandString("Hit or stand? ");
 
-            if (hitOrStand == "Hit")
+            while (userPlayer.HandTotal < 21)
             {
-                userPlayer.Hit(newDeckOfCards);
-            }
-            else if (hitOrStand == "Stand")
-            {
-                userPlayer.Stand();
+                var hitOrStand = PromptForHitOrStandString("Hit or stand? ");
+
+
+                if (hitOrStand == "Hit")
+                {
+                    userPlayer.Hit(newDeckOfCards);
+                    if (userPlayer.HandTotal > 21)
+                    {
+                        Console.WriteLine("You bust, Game Over!");
+
+                    }
+
+                }
+                else if (hitOrStand == "Stand")
+                {
+                    userPlayer.Stand();
+                }
+                foreach (var element in userPlayer.Hand)
+                {
+                    Console.WriteLine(element.Rank + " of " + element.Suit);
+                }
             }
 
-            foreach (var element in userPlayer.Hand)
-            {
-                Console.WriteLine(element.Rank + " of " + element.Suit);
-            }
+
+
             Console.WriteLine(userPlayer.HandTotal);
 
 
