@@ -8,6 +8,8 @@ namespace BlackjackCS
         public string Name { get; set; }
         public List<Card> Hand { get; set; }
         public int HandTotal { get; set; }
+
+        public bool HasStood { get; set; }
         public void Hit(Deck deck)
         {
             var newCard = deck.DeckOfCards[0];
@@ -21,6 +23,8 @@ namespace BlackjackCS
         public void Stand()
         {
             CalculateHandTotal();
+
+            HasStood = true;
         }
 
         public int CalculateHandTotal()
@@ -200,7 +204,7 @@ namespace BlackjackCS
             //     Console.WriteLine(element);
             // }
 
-            while (userPlayer.HandTotal < 21)
+            while (userPlayer.HandTotal < 21 && userPlayer.HasStood != true)
             {
                 var hitOrStand = PromptForHitOrStandString("Hit or stand? ");
 
