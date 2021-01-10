@@ -17,12 +17,18 @@ namespace BlackjackCS
         }
         public void Stand()
         {
-            Console.WriteLine("Standinggg");
+            CalculateHandTotal();
         }
 
-        public void CalculateHandTotal()
+        public int CalculateHandTotal()
         {
-            Console.WriteLine("calculating hand total");
+            var total = 0;
+            foreach (var element in Hand)
+            {
+                total += element.Value();
+            }
+            HandTotal = total;
+            return HandTotal;
         }
 
     }
@@ -196,12 +202,16 @@ namespace BlackjackCS
             {
                 userPlayer.Hit(newDeckOfCards);
             }
+            else if (hitOrStand == "Stand")
+            {
+                userPlayer.Stand();
+            }
 
             foreach (var element in userPlayer.Hand)
             {
                 Console.WriteLine(element.Rank + " of " + element.Suit);
             }
-
+            Console.WriteLine(userPlayer.HandTotal);
 
 
         }
