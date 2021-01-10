@@ -124,9 +124,9 @@ namespace BlackjackCS
 
     class Program
     {
-        static void DisplayGreeting()
+        static void DisplayGreeting(string userInput)
         {
-            Console.WriteLine("Welcome to BlackJack!");
+            Console.WriteLine($"Welcome to BlackJack {userInput}!");
         }
         static string PromptForString(string prompt)
         {
@@ -158,9 +158,9 @@ namespace BlackjackCS
         }
         static void Main(string[] args)
         {
-            DisplayGreeting();
-
             var name = PromptForString("What is your name? ");
+
+            DisplayGreeting(name);
 
             var userPlayer = new Player()
             {
@@ -208,12 +208,14 @@ namespace BlackjackCS
                 {
                     userPlayer.Hit(newDeckOfCards);
 
+                    Console.WriteLine("This is your hand:");
+                    foreach (var element in userPlayer.Hand)
+                    {
+                        Console.WriteLine(element.Rank + " of " + element.Suit);
+                    }
+
                     if (userPlayer.HandTotal > 21)
                     {
-                        foreach (var element in userPlayer.Hand)
-                        {
-                            Console.WriteLine(element.Rank + " of " + element.Suit);
-                        }
                         Console.WriteLine("You bust, Game Over!");
 
                         ResetGame();
@@ -227,10 +229,6 @@ namespace BlackjackCS
                 else if (hitOrStand == "Stand")
                 {
                     userPlayer.Stand();
-                }
-                foreach (var element in userPlayer.Hand)
-                {
-                    Console.WriteLine(element.Rank + " of " + element.Suit);
                 }
             }
 
