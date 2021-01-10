@@ -194,20 +194,20 @@ namespace BlackjackCS
             var newDeckOfCards = new Deck();
             newDeckOfCards.GenerateNewDeck();
 
-            foreach (var element in newDeckOfCards.DeckOfCards)
-            {
-                Console.WriteLine(element);
-            }
-
+            Console.WriteLine("Shuffling the deck...");
             newDeckOfCards.ShuffleDeck();
 
-            foreach (var element in newDeckOfCards.DeckOfCards)
-            {
-                Console.WriteLine(element);
-            }
-
+            Console.WriteLine("Dealing the cards...");
             newDeckOfCards.DealCards(userPlayer);
             newDeckOfCards.DealCards(dealerPlayer);
+
+            userPlayer.CalculateHandTotal();
+            if (userPlayer.HandTotal == 21)
+            {
+                Console.WriteLine("You were dealt 21! You stand.");
+                userPlayer.Stand();
+            }
+            dealerPlayer.CalculateHandTotal();
             Console.WriteLine("Here is your hand:");
 
             foreach (var element in userPlayer.Hand)
@@ -215,11 +215,6 @@ namespace BlackjackCS
                 Console.WriteLine(element.Rank + " of " + element.Suit);
             }
             Console.WriteLine("");
-
-            // foreach (string element in dealerPlayer.Hand)
-            // {
-            //     Console.WriteLine(element);
-            // }
 
             while (userPlayer.HandTotal < 21 && userPlayer.HasStood != true)
             {
@@ -231,9 +226,20 @@ namespace BlackjackCS
                     userPlayer.Hit(newDeckOfCards);
                     if (userPlayer.HandTotal > 21)
                     {
+                        foreach (var element in userPlayer.Hand)
+                        {
+                            Console.WriteLine(element.Rank + " of " + element.Suit);
+                        }
                         Console.WriteLine("You bust, Game Over!");
+
+
                         ResetGame();
 
+                    }
+                    else if (userPlayer.HandTotal == 21)
+                    {
+                        userPlayer.Stand();
+                        Console.WriteLine("You have 21! You have stood.");
                     }
 
                 }
@@ -247,13 +253,25 @@ namespace BlackjackCS
                 }
             }
 
-            while (dealerPlayer.HandTotal < 17 && dealerPlayer.HasStood != true)
+            while (dealerPlayer.HasStood != true)
             {
+                Console.WriteLine("This is the dealers hand:");
+                foreach (var element in dealerPlayer.Hand)
+                {
+                    Console.WriteLine(element.Rank + " of " + element.Suit);
+                }
                 if (dealerPlayer.HandTotal < 17)
                 {
                     dealerPlayer.Hit(newDeckOfCards);
+                    Console.WriteLine("The dealer hits");
                     if (dealerPlayer.HandTotal > 21)
                     {
+                        Console.WriteLine("This is the dealers hand:");
+                        foreach (var element in dealerPlayer.Hand)
+                        {
+                            Console.WriteLine(element.Rank + " of " + element.Suit);
+                        }
+
                         Console.WriteLine("Dealer busts, User Wins!");
                         ResetGame();
 
@@ -263,17 +281,28 @@ namespace BlackjackCS
                 }
                 else if (dealerPlayer.HandTotal >= 17)
                 {
+                    Console.WriteLine("The Dealer Stands");
                     dealerPlayer.Stand();
                 }
-                foreach (var element in dealerPlayer.Hand)
-                {
-                    Console.WriteLine(element.Rank + " of " + element.Suit);
-                }
+
             }
 
+            if (dealerPlayer.HandTotal < userPlayer.HandTotal && userPlayer.HandTotal <= 21)
+            {
+                Console.WriteLine("user wins!");
+            }
+            else if (userPlayer.HandTotal < dealerPlayer.HandTotal && dealerPlayer.HandTotal <= 21)
+            {
+                Console.WriteLine("dealer wins!");
+            }
+            else if (userPlayer.HandTotal == dealerPlayer.HandTotal)
+            {
+                Console.WriteLine("dealer wins!");
+            }
+            ResetGame();
 
 
-            Console.WriteLine(userPlayer.HandTotal);
+
 
 
         }
